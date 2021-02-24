@@ -1,5 +1,5 @@
 let mongoose = require("mongoose");
-let db = require("../models");
+let Workout = require("../models/workoutModel.js");
 
 mongoose.connect("mongodb://localhost/workout", {
   useNewUrlParser: true,
@@ -18,7 +18,8 @@ let workoutSeed = [
         reps: 10,
         sets: 4
       }
-    ]
+    ],
+    totalDuration: 20
   },
   {
     day: new Date().setDate(new Date().getDate()-9),
@@ -31,7 +32,8 @@ let workoutSeed = [
         reps: 10,
         sets: 4
       }
-    ]
+    ],
+    totalDuration: 20
   },
   {
     day: new Date().setDate(new Date().getDate()-8),
@@ -44,7 +46,8 @@ let workoutSeed = [
         reps: 8,
         sets: 4
       }
-    ]
+    ],
+    totalDuration: 25
   },
   {
     day: new Date().setDate(new Date().getDate()-7),
@@ -55,7 +58,8 @@ let workoutSeed = [
         duration: 25,
         distance: 4
       }
-    ]
+    ],
+    totalDuration: 25
   },
   {
     day: new Date().setDate(new Date().getDate()-6),
@@ -68,7 +72,8 @@ let workoutSeed = [
         reps: 10,
         sets: 4
       }
-    ]
+    ],
+    totalDuration: 20
   },
   {
     day: new Date().setDate(new Date().getDate()-5),
@@ -81,7 +86,8 @@ let workoutSeed = [
         reps: 10,
         sets: 4
       }
-    ]
+    ],
+    totalDuration: 20
   },
   {
     day: new Date(new Date().setDate(new Date().getDate() - 4)),
@@ -94,7 +100,8 @@ let workoutSeed = [
         reps: 10,
         sets: 4
       }
-    ]
+    ],
+    totalDuration: 30
   },
   {
     day: new Date(new Date().setDate(new Date().getDate() - 3)),
@@ -107,7 +114,8 @@ let workoutSeed = [
         reps: 10,
         sets: 4
       }
-    ]
+    ],
+    totalDuration: 20
   },
   {
     day: new Date(new Date().setDate(new Date().getDate() - 2)),
@@ -120,12 +128,13 @@ let workoutSeed = [
         reps: 10,
         sets: 4
       }
-    ]
+    ],
+    totalDuration: 20
   }
 ];
 
-db.Workout.deleteMany({})
-  .then(() => db.Workout.collection.insertMany(workoutSeed))
+Workout.deleteMany({})
+  .then(() => Workout.collection.insertMany(workoutSeed))
   .then(data => {
     console.log(data.result.n + " records inserted!");
     process.exit(0);

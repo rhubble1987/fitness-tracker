@@ -1,46 +1,69 @@
 const mongoose = require("mongoose");
-const moment = required('moment');
-const numeral = required('numeral');
 
 const Schema = mongoose.Schema;
 
 const WorkoutSchema = new Schema({
-    excerciseType: {
-        type: String,
-        trim: true,
-        required: 'You must select an exercise type.',
-        validate: [(exerciseType) => exerciseType === 'Resistance' || excerciseType === 'Cardio', 'Type can only be resistance or cardio.']
+    day: {
+        type: Date,
+        default: Date.now
     },
-    name: {
-        type: String,
-        trim: true,
-        required: 'You must provide an excercise name.',
-        validate: [({length}) => length <= 50, 'Workout name can only be 50 characters in length.']
-    },
-    duration: {
-        type: Number,
-        required: 'You must enter the workout duration.',
-        validate: [(duration) => duration === moment(duration).format('mm:ss'),'Duration must be formatted as mm:ss.']
-    },
-    distance: {
-        type: Number,
-        required: [(exerciseType) => exerciseType === 'Cardio', 'You must enter the distance for your workout.'],
-        validate: [(distance) => distance === numeral(distance).format('00.00')]
-
-    },
-    weight: {
-        type: Number,
-        required: [(excerciseType) => excerciseType === "Resistance", 'You must enter the weight.']
-    },
-    sets: {
-        type: Number,
-        required: [(excerciseType) => excerciseType === "Resistance", 'You must enter the number of sets.']
-    },
-    reps: {
-        type: Number,
-        required: [(excerciseType) => excerciseType === "Resistance", 'You must enter the number of reps.']
-    }
+    exercises: [
+        {
+        type: {
+            type: String,
+            trim: true,
+            required: 'You must select an exercise type.',
+        },
+        name: {
+            type: String,
+            trim: true,
+            required: 'You must provide an excercise name.',
+        },
+        duration: {
+            type: Number,
+            required: 'You must enter the exercise duration.',
+        },
+        distance: {
+            type: Number,
+            required: isRequiredCardio()
+        },
+        weight: {
+            type: Number,
+            required: isRequiredResistance()
+        },
+        sets: {
+            type: Number,
+            required: isRequiredResistance()
+        },
+        reps: {
+            type: Number,
+            required: isRequiredResistance()
+        }
+    }    
+    ],
 });
+
+function isRequiredResistance() {
+    if (this.type == 'resistance') {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function isRequiredCardio() {
+    if (this.type == 'cardio') {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
+        
+
+    
+
 
 const Workout = mongoose.model("Workout", WorkoutSchema);
 
